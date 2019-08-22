@@ -61,6 +61,12 @@ impl Display for Hero{
 
 impl Debug for Hero{
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
-        write!(f, "({}, {}, {}, {} )",  self.name, self.identity, self.age, self.hometown )
+
+        if self.id.is_some() {
+            write!(f, "{{ 'name': '{}', 'identity': '{}', 'age': {}, 'hometown': '{}', 'id': '{}' }}",  self.name, self.identity, self.age, self.hometown, self.id.unwrap() )
+        }else{
+            write!(f, "{{ 'name': '{}', 'identity': '{}', 'age': {}, 'hometown': '{}' }}",  self.name, self.identity, self.age, self.hometown )
+        }
+
     }
 }

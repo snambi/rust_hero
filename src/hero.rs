@@ -1,7 +1,9 @@
-use rocket::http::{Status,ContentType};
-use rocket::response::{Responder, Body};
+use rocket::http::{ContentType, Status};
+use rocket::response::{Body, Responder};
 use rocket::{Request, Response};
 use std::io::Cursor;
+use std::fmt::{Display, Formatter, Error};
+use std::fmt::Debug;
 //use rocket::request::Request;
 //use rocket::response::Result;
 
@@ -33,14 +35,12 @@ impl Hero {
 }
 
 impl<'r> Responder<'r> for Hero {
-
     fn respond_to(self, request: &Request) -> Result<Response<'r>, Status> {
-
         let stat = Status::Ok;
 
         let response = Response::build()
-            .status(Status::ImATeapot)
-            .header(ContentType::Plain)
+            .status(Status::Ok)
+            .header(ContentType::HTML)
             .raw_header("X-Teapot-Make", "Rocket")
             .raw_header("X-Teapot-Model", "Utopia")
             .raw_header_adjoin("X-Teapot-Model", "Series 1")
@@ -49,5 +49,18 @@ impl<'r> Responder<'r> for Hero {
 
         Result::Ok(response)
     }
+}
 
+impl Display for Hero{
+
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        //unimplemented!()
+        write!(f, "({}, {}, {}, {}, {} )",  self.name, self.identity, self.age, self.hometown, self.id.unwrap() )
+    }
+}
+
+impl Debug for Hero{
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        write!(f, "({}, {}, {}, {} )",  self.name, self.identity, self.age, self.hometown )
+    }
 }

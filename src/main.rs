@@ -1,5 +1,6 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
+
 #[macro_use]
 extern crate rocket;
 
@@ -17,14 +18,14 @@ use serde_json::json;
 
 #[post("/", data = "<hero>")]
 fn create(hero: Json<Hero>) -> Json<Hero> {
-    //println!("Created called : {:?} ", hero);
+    println!("Create called\n input : {:?} ", hero);
     hero
 }
 
 #[get("/")]
 fn read() -> Hero {
     let h = Hero::new(
-        Some(33),
+        Some(13),
         String::from("John"),
         String::from("human"),
         String::from("san jose"),
